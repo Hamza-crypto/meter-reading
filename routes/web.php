@@ -14,16 +14,10 @@ use App\Http\Controllers\MeterReadingController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [MeterReadingController::class, 'showElectricityGraph'])->name('electricity-graph');
 
+Route::get('/last-billed-reading', [MeterReadingController::class, 'showLastBilledReadingForm'])->name('last-billed-reading-form');
+Route::post('/last-billed-reading', [MeterReadingController::class, 'storeLastBilledReading'])->name('store-last-billed-reading');
 
-Route::get('/', [MeterReadingController::class, 'index']);
-Route::post('/meter-readings', [MeterReadingController::class, 'store']);
-Route::get('/set-last-billed-reading', function () {
-    return view('settings.set_last_billed_reading');
-})->name('set-last-billed-reading');
-Route::post('/set-last-billed-reading', [MeterReadingController::class, 'setLastBilledReading']);
-
-Route::get('/electricity-graph', [MeterReadingController::class, 'showElectricityGraph'])->name('electricity-graph');
+Route::get('/meter-reading', [MeterReadingController::class, 'showMeterReadingForm'])->name('meter-reading-form');
+Route::post('/meter-reading', [MeterReadingController::class, 'storeMeterReading'])->name('store-meter-reading');

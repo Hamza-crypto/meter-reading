@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('meter_readings', function (Blueprint $table) {
             $table->id();
             $table->string('meter_name');
-            $table->decimal('reading', 8, 2);
+            $table->integer('reading_value');
             $table->timestamps();
+            $table->unique(['meter_name', 'created_at']);
 });
 
     }

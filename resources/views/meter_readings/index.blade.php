@@ -4,61 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Electricity Consumption Graph</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Meter Reading Form</title>
 </head>
 
 <body>
-    <div style="width: 80%; margin: auto;">
-        <canvas id="electricityChart"></canvas>
-    </div>
+    <h1>Meter Reading Form</h1>
+    <form action="{{ route('store-meter-reading') }}" method="POST">
+        @csrf
+        <label for="meter_name">Meter Name:</label>
+        <select name="meter_name" id="meter_name" required>
+            <option value="meter1">Meter 1</option>
+            <option value="meter2">Meter 2</option>
+        </select>
+        <br>
+        <label for="reading_value">Reading Value:</label>
+        <input type="number" name="reading_value" id="reading_value" required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
 
-    <script>
-        var ctx = document.getElementById('electricityChart').getContext('2d');
-        var electricityChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: <?= json_encode(array_column($meter1Data, 'date')) ?>,
-                datasets: [{
-                    label: 'Meter 1',
-                    data: <?= json_encode(array_column($meter1Data, 'reading')) ?>,
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    fill: true
-                }, {
-                    label: 'Meter 2',
-                    data: <?= json_encode(array_column($meter2Data, 'reading')) ?>,
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            unit: 'day',
-                            displayFormats: {
-                                day: 'MMM D'
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Date'
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Cumulative Reading'
-                        }
-                    }
-                }
-            }
-        });
-    </script>
 </body>
 
 </html>

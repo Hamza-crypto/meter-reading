@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\MeterReading;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Carbon\Carbon;
 
 class MeterReadingFactory extends Factory
 {
@@ -14,9 +13,8 @@ class MeterReadingFactory extends Factory
     {
         return [
             'meter_name' => $this->faker->randomElement(['meter1', 'meter2']),
-            'reading' => $this->faker->numberBetween(100, 500),
-            'created_at' => Carbon::now()->subDays(rand(0, 30))->startOfDay(), // Random day in the last 30 days
-            'updated_at' => Carbon::now(),
+            'reading_value' => $this->faker->numberBetween(0, 100),
+            'created_at' => now()->subDays(rand(0, 30)), // Generate readings for the past month
         ];
     }
 }

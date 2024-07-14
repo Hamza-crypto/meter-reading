@@ -9,51 +9,66 @@
 </head>
 
 <body>
-    <div style="width: 80%; margin: auto;">
-        <canvas id="electricityChart"></canvas>
+    <h1>Electricity Consumption Graph</h1>
+
+    <div>
+        <canvas id="meter1Chart"></canvas>
+        <h3>Total Units Consumed by Meter 1: {{ $totalMeter1 }}</h3>
+    </div>
+
+    <div>
+        <canvas id="meter2Chart"></canvas>
+        <h3>Total Units Consumed by Meter 2: {{ $totalMeter2 }}</h3>
     </div>
 
     <script>
-        var ctx = document.getElementById('electricityChart').getContext('2d');
-        var electricityChart = new Chart(ctx, {
-            type: 'line',
+        // Meter 1 data
+        const meter1Labels = {!! json_encode(array_column($meter1Data, 'date')) !!};
+        const meter1Data = {!! json_encode(array_column($meter1Data, 'usage')) !!};
+
+        // Meter 2 data
+        const meter2Labels = {!! json_encode(array_column($meter2Data, 'date')) !!};
+        const meter2Data = {!! json_encode(array_column($meter2Data, 'usage')) !!};
+
+        // Create chart for Meter 1
+        const meter1Ctx = document.getElementById('meter1Chart').getContext('2d');
+        new Chart(meter1Ctx, {
+            type: 'bar',
             data: {
-                labels: <?= json_encode(array_column($meter1Data, 'date')) ?>,
+                labels: meter1Labels,
                 datasets: [{
-                    label: 'Meter 1',
-                    data: <?= json_encode(array_column($meter1Data, 'reading')) ?>,
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    fill: true
-                }, {
-                    label: 'Meter 2',
-                    data: <?= json_encode(array_column($meter2Data, 'reading')) ?>,
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    fill: true
+                    label: 'Meter 1 Daily Usage (units)',
+                    data: meter1Data,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 }]
             },
             options: {
-                responsive: true,
                 scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            unit: 'day',
-                            displayFormats: {
-                                day: 'MMM D'
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Date'
-                        }
-                    },
                     y: {
-                        title: {
-                            display: true,
-                            text: 'Cumulative Reading'
-                        }
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Create chart for Meter 2
+        const meter2Ctx = document.getElementById('meter2Chart').getContext('2d');
+        new Chart(meter2Ctx, {
+            type: 'bar',
+            data: {
+                labels: meter2Labels,
+                datasets: [{
+                    label: 'Meter 2 Daily Usage (units)',
+                    data: meter2Data,
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
                     }
                 }
             }

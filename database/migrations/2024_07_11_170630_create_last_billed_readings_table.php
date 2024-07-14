@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('last_billed_readings', function (Blueprint $table) {
             $table->id();
             $table->string('meter_name');
-            $table->decimal('reading', 8, 2);
+            $table->integer('reading_value');
             $table->timestamps();
         });
     }
